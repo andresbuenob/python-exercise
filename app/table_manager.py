@@ -22,7 +22,7 @@ class TableManager:
         table_json = self.table_df.to_json(
             path_or_buf=r"integrations/data.json", orient="records"
         )
-        logging.info(f"Writed json file")
+        logging.info(f"Json file wrote")
 
     def save_table(self):
         """Saves DataFrame in a sqlite database"""
