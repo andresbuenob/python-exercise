@@ -28,6 +28,7 @@ RUN rm sqlite-autoconf-3170000.tar.gz
 RUN mkdir /app
 WORKDIR /app
 COPY ./app /app
+ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 RUN adduser -D user
 USER user

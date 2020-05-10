@@ -8,8 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-    command: >
-      sh -c "python hello.py"
+    # command: >
+    #   sh -c "python hello.py"
     environment:
       - DB_HOST=db
       - DB_NAME=regions
