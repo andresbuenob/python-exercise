@@ -18,11 +18,12 @@ class TableManager:
         self.table_df = pd.DataFrame()
 
     def write_table_json(self):
-        """Writes a json file the table information"""
+        """Writes a json file with the table information"""
         table_json = self.table_df.to_json(
             path_or_buf=r"integrations/data.json", orient="records"
         )
         logging.info(f"Json file wrote")
+        return table_json
 
     def save_table(self):
         """Saves DataFrame in a sqlite database"""
@@ -39,11 +40,11 @@ class TableManager:
     def get_calculations(self):
         """Computes and prints some calculations over the dataframe"""
         logging.info(f"Max time: {self.table_df.max(axis=0)['time']:0.2f} seconds")
-        logging.info(f"Min time: {self.table_df.mean(axis=0)['time']:0.2f} seconds")
+        logging.info(f"Min time: {self.table_df.min(axis=0)['time']:0.2f} seconds")
         logging.info(f"Mean time: {self.table_df.mean(axis=0)['time']:0.2f} seconds")
         logging.info(f"Total time: {self.table_df.sum(axis=0)['time']:0.2f} seconds")
 
-    def get_country(self, region: list) -> dict:
+    def get_country(self, region: str) -> dict:
         """Obtains the first country of a region"""
         logging.info(f"Getting country from region: {region} ...")
         try:
@@ -56,7 +57,6 @@ class TableManager:
             )
         except Exception as err:
             logging.error(f"An error occurred: {err}")
-            # maybe raise an error here ?
             return
         return response.json()[0]
 
@@ -74,7 +74,8 @@ class TableManager:
         }
 
     def create_table(self, regions: list):
-        rows = list(map(lambda country: self.create_row(country), regions))
+        """Creates and fills a table"""
+        rows = list(map(lambda region: self.create_row(region), regions))
         self.table_df = pd.DataFrame.from_dict(rows)
         self.get_calculations()
         self.save_table()

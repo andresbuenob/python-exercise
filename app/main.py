@@ -34,6 +34,7 @@ def main():
     auth = Auth()
 
     regions = get_regions(os.getenv("REGIONS_API"))
+    print(regions)
     table_mng.create_table(regions)
 
     auth.get_authorization()
