@@ -4,7 +4,6 @@ import os
 import requests
 
 from dotenv import find_dotenv, load_dotenv
-
 from table_manager import TableManager
 
 
