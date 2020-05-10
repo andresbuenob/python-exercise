@@ -45,6 +45,7 @@ class TableManager:
 
     def get_country(self, region: list) -> dict:
         """Obtains the first country of a region"""
+        logging.info(f"Getting country from region: {region} ...")
         try:
             response = requests.get(
                 os.getenv("COUNTRIES_API") + region,

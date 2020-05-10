@@ -11,7 +11,7 @@ from integrations.auth import Auth
 
 def get_regions(regions_api: str) -> list:
     """Gets regions information"""
-    logging.info("Geting regions from API")
+    logging.info("Geting regions from API ...")
 
     try:
         response = requests.get(

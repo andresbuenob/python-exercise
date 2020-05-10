@@ -8,6 +8,15 @@ class Auth:
         self.github_client = OAuth2Session(os.getenv("CLIENT_ID"))
         self.is_authenticated = False
 
+    def get_user_info(self):
+        """Obtains authenticated basic user info"""
+        user_data = self.github_client.get(os.getenv("GITHUB_USER_URL"))
+        user = user_data.json()
+        logging.info("")
+        logging.info(" ----------------------------------------------- ")
+        logging.info(f"    Welcome {user['name']} - {user['login']}")
+        logging.info(" ----------------------------------------------- ")
+
     def get_token(self, redirect_response: str):
         """Obtains a token from the redirect_response code"""
         try:
@@ -17,8 +26,7 @@ class Auth:
                 authorization_response=redirect_response,
             )
             self.is_authenticated = True
-            user_data = self.github_client.get(os.getenv("GITHUB_USER_URL"))
-            print(user_data.content)
+            self.get_user_info()
         except Exception as e:
             self.is_authenticated = False
             logging.error(f"Fetch token failed {e}")
