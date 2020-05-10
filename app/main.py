@@ -2,7 +2,6 @@ import logging
 import os
 
 import requests
-from requests.exceptions import HTTPError
 
 from dotenv import find_dotenv, load_dotenv
 
@@ -24,14 +23,15 @@ def get_regions(regions_api: str) -> list:
     except Exception as err:
         logging.error(f"An error occurred:: {http_err}")
         return
-
-    return list(set(map(lambda x: x["region"], response.json())))
+    regions = list(set(map(lambda x: x["region"], response.json())))
+    return list(set(filter(None, regions)))
 
 
 def main():
     regions = get_regions(os.getenv("REGIONS_API"))
     logging.info(f"regions: {regions} of type: {type(regions)}")
-    TableManager.create_table(regions)
+    table_mng = TableManager()
+    table_mng.create_table(regions)
 
 
 if __name__ == "__main__":
